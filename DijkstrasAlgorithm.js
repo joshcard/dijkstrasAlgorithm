@@ -1,11 +1,13 @@
 class City {
     constructor(name, routes={}) {
         this.name = name
-        this.routes = routes
+        this.routeNodes = routes
+        this.routePrices = {}
     }
 
     add_route(city, price) {
-        this.routes[city.name] = price
+        this.routePrices[city.name] = price
+        this.routeNodes[city.name] = city
     }
 }
 
@@ -23,18 +25,17 @@ function dijkstras_algorithm(startingCity, finalDestination) {
 
     while (current_city) {
         visited_cities[current_city.name] = true
-        unvisited_cities.filter(city => city !== current_city)
+        unvisited_cities = unvisited_cities.filter(city => city.name !== current_city.name)
 
-        console.log(current_city.routes);
-        for (const [adjacentCity, price] of Object.entries(current_city.routes))
+        console.log(current_city.routePrices);
+        for (const [adjacentCity, price] of Object.entries(current_city.routePrices))
         {
             console.log(adjacentCity, price);
         }
-        
 
-        for (const [adjacentCity, price] of Object.entries(current_city.routes)) {
+        for (const [adjacentCity, price] of Object.entries(current_city.routePrices)) {
             if (visited_cities[adjacentCity] == undefined) {
-                unvisited_cities.push()
+                unvisited_cities.push(current_city.routeNodes[adjacentCity])
             }
 
             let price_through_current_city = cheapest_prices_table[current_city.name] + price
@@ -45,9 +46,16 @@ function dijkstras_algorithm(startingCity, finalDestination) {
             }
         }
 
-        current_city = unvisited_cities.forEach(city => {
-            cheapest_prices_table[city.name]
+        let lowestPrice = 99999;
+        let lowestCity = '';
+        unvisited_cities.forEach(city => {
+            if(lowestPrice > cheapest_prices_table[city.name])
+            {
+                lowestPrice = cheapest_prices_table[city.name];
+                lowestCity = city.name;
+            }
         })
+        current_city = current_city.routeNodes[lowestCity];
     }
 
     let shortest_path = []
