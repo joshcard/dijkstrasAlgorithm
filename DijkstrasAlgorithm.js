@@ -25,20 +25,27 @@ function dijkstras_algorithm(startingCity, finalDestination) {
         visited_cities[current_city.name] = true
         unvisited_cities.filter(city => city !== current_city)
 
-        current_city.routes.forEach(adjacentCity, price => {
-            if (visited_cities[adjacentCity.name] !== undefined) {
-                unvisited_cities.push(adjacentCity)
+        console.log(current_city.routes);
+        for (const [adjacentCity, price] of Object.entries(current_city.routes))
+        {
+            console.log(adjacentCity, price);
+        }
+        
+
+        for (const [adjacentCity, price] of Object.entries(current_city.routes)) {
+            if (visited_cities[adjacentCity] == undefined) {
+                unvisited_cities.push()
             }
 
             let price_through_current_city = cheapest_prices_table[current_city.name] + price
 
-            if (!cheapest_prices_table[adjacentCity.name] || price_through_current_city < cheapest_prices_table[adjacentCity.name]) {
-                cheapest_prices_table[adjacentCity.name] = price_through_current_city
-                cheapest_previous_stopover_city_table[adjacentCity.name] = current_city.name
+            if (!cheapest_prices_table[adjacentCity] || price_through_current_city < cheapest_prices_table[adjacentCity]) {
+                cheapest_prices_table[adjacentCity] = price_through_current_city
+                cheapest_previous_stopover_city_table[adjacentCity] = current_city.name
             }
-        })
+        }
 
-        current_city = unvisited_cities.min().forEach(city => {
+        current_city = unvisited_cities.forEach(city => {
             cheapest_prices_table[city.name]
         })
     }
