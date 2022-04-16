@@ -5,7 +5,7 @@ class City {
     }
 
     add_route(city, price) {
-        this.routes[city] = price
+        this.routes[city.name] = price
     }
 }
 
