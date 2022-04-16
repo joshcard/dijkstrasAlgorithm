@@ -27,12 +27,6 @@ function dijkstras_algorithm(startingCity, finalDestination) {
         visited_cities[current_city.name] = true
         unvisited_cities = unvisited_cities.filter(city => city.name !== current_city.name)
 
-        console.log(current_city.routePrices);
-        for (const [adjacentCity, price] of Object.entries(current_city.routePrices))
-        {
-            console.log(adjacentCity, price);
-        }
-
         for (const [adjacentCity, price] of Object.entries(current_city.routePrices)) {
             if (visited_cities[adjacentCity] == undefined) {
                 unvisited_cities.push(current_city.routeNodes[adjacentCity])
@@ -63,9 +57,11 @@ function dijkstras_algorithm(startingCity, finalDestination) {
     let current_city_name = finalDestination.name
 
     while (current_city_name !== startingCity.name) {
-        shortest_path.push(shortest_path)
+        shortest_path.push(current_city_name);
 
         current_city_name = cheapest_previous_stopover_city_table[current_city_name]
+
+        
     }
 
     shortest_path.push(startingCity.name)
